@@ -1,10 +1,15 @@
 package com.reyes.j8tutorial;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.function.Consumer;
 
 import com.reyes.j8tutorial.lambda.FuncInterface01;
 import com.reyes.j8tutorial.lambda.FuncInterface02;
+import com.reyes.j8tutorial.lambda.FuncInterface03;
+import com.reyes.j8tutorial.lambda.FuncInterface04;
 
 public class LambdaTutorial {
 	
@@ -58,6 +63,14 @@ public class LambdaTutorial {
 		
 //		´ú¸Õ¬Û¥[
 		System.out.println(LambdaTutorial.changeNumber(1, 2, (x, y) -> x * y));
+		
+		System.out.println("========== ½m²ß ============== ");
+		LambdaTutorial.test6();
+		
+		System.out.println(LambdaTutorial.test7("aFa", (x) -> x.toUpperCase()));
+		
+		System.out.println(LambdaTutorial.test8(1l,  2l, (l1, l2) -> l1 + l2));
+		System.out.println(LambdaTutorial.test8(1l,  2l, (l1, l2) -> l1 * l2));
 		
 	}
 
@@ -138,5 +151,65 @@ public class LambdaTutorial {
 	public Integer changeNumber(Integer i1, Integer i2, FuncInterface02<Integer, Integer> fn2) {
 		return fn2.opInteger(i1, i2);
 	}
+	
+	private static List<User> users = Arrays.asList(
+		new User("A-name", 25), new User("B-name", 25),
+		new User("A-name", 30) 
+	);
+	
+	public void test6() {
+		Collections.sort(users, (u1, u2) -> {
+			if(u1.getAge() == u2.getAge()) {
+				return u1.getName().compareTo(u2.getName());
+			}else {
+				return Integer.compare(u1.getAge(), u2.getAge());
+			}
+		});
+		
+		users.forEach(System.out::println);
+		
+	}
+	
+	public String test7(String str, FuncInterface03 fun) {
+		return fun.getValue(str);
+	}
+	
+	public Long test8(Long l1, Long l2, FuncInterface04<Long, Long> fun) {
+		return fun.addValue(l1, l2);
+	}
+	
+}
+
+class User {
+	private String name;
+	private Integer age;
+	
+	public User() {
+		
+	}
+	
+	public User(String name, Integer age) {
+		this.name = name;
+		this.age = age;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Integer getAge() {
+		return age;
+	}
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	@Override
+	public String toString() {
+		return "User [name=" + name + ", age=" + age + "]";
+	}
+	
 	
 }
